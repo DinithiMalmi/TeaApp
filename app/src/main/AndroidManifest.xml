@@ -26,12 +26,6 @@
         <activity
             android:name=".ResultActivity"
             android:exported="false" />
-        <activity
-            android:name=".NotificationsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChatBotActivity"
-            android:exported="false" />
 
         <activity
             android:name=".StartActivity"

@@ -3,15 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
     tools:context=".ChatBotFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/idRVChats"
+        android:layout_above="@id/idRLMsg"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Chat Bot"
-        android:textColor="@color/black"
-        android:textSize="35dp" />
+        android:layout_alignParentBottom="true"
+        android:id="@+id/idRLMsg"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Message"
+            android:textColorHint="@color/white"
+            android:id="@+id/idEdtMessage"
+            android:layout_toLeftOf="@id/idFABSend"
+            android:layout_margin="3dp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:singleLine="true"
+            />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/send"
+            android:layout_margin="4dp"
+            app:fabCustomSize="45dp"
+            app:backgroundTint="@color/fab_color"
+            app:tint="@color/white"
+            android:id="@+id/idFABSend"
+            android:layout_alignParentRight="true"
+            />
+
+
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
