@@ -3,62 +3,105 @@ package com.example.teaapplication;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatBotFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+
 public class ChatBotFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView chatsRV;
+    private EditText userMsgEdt;
+    private FloatingActionButton sendMsgFAB;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private final String BOT_KEY="bot";
+    private final String USER_KEY="user";
+    private ArrayList<ChatsModal>chatsModalArrayList;
+    private ChatRVAdapter chatRVAdapter;
 
-    public ChatBotFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatBotFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatBotFragment newInstance(String param1, String param2) {
-        ChatBotFragment fragment = new ChatBotFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_bot, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_chat_bot, container, false);
+        chatsRV = rootView.findViewById(R.id.idRVChats);
+        userMsgEdt = rootView.findViewById(R.id.idEdtMessage);
+        sendMsgFAB = rootView.findViewById(R.id.idFABSend);
+
+        chatsModalArrayList = new ArrayList<>();
+        chatRVAdapter = new ChatRVAdapter(chatsModalArrayList, getActivity());
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        chatsRV.setLayoutManager(manager);
+        chatsRV.setAdapter(chatRVAdapter);
+
+        sendMsgFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(userMsgEdt.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter your message", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                getResponse(userMsgEdt.getText().toString());
+                userMsgEdt.setText("");
+
+            }
+        });
+
+        return rootView;
     }
+
+    public void getResponse(String message) {
+        chatsModalArrayList.add(new ChatsModal(message, USER_KEY));
+        chatRVAdapter.notifyDataSetChanged();
+        String url = "http://api.brainshop.ai/get?bid=179170&key=Exe2Ybi89hDbkgnS&uid=[uid]&msg=" + message;
+        String BASE_URL = "http://api.brainshop.ai";
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<MsgModal> call = retrofitAPI.getMessage(url);
+        call.enqueue(new Callback<MsgModal>() {
+            public void onResponse(Call<MsgModal> call, Response<MsgModal> response) {
+                if(response.isSuccessful()){
+                    MsgModal modal = response.body();
+                    chatsModalArrayList.add(new ChatsModal(modal.getCnt(),BOT_KEY));
+                    chatRVAdapter.notifyDataSetChanged();
+                }
+            }
+
+            public void onFailure(Call<MsgModal> call, Throwable t) {
+                chatsModalArrayList.add(new ChatsModal("Please revert your question",BOT_KEY));
+                chatRVAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
