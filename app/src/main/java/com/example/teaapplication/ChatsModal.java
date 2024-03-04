@@ -1,7 +1,6 @@
 package com.example.teaapplication;
 
 public class ChatsModal {
-
     private String message;
     private String sender;
 
@@ -14,15 +13,7 @@ public class ChatsModal {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public String getSender() {
         return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
     }
 }
