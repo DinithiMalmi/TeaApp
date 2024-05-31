@@ -33,40 +33,7 @@
         android:textSize="25sp"
         android:textStyle="bold"/>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/resultTextView"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="8dp">
 
-        <ScrollView
-            android:id="@+id/resultScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:scrollbars="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/characteristicsTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Characteristics"
-                    android:textSize="16sp" />
-
-                <!-- Add your additional content here if needed -->
-
-            </LinearLayout>
-
-        </ScrollView>
-
-    </androidx.cardview.widget.CardView>
 
 
     <ImageButton

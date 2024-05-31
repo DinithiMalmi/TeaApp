@@ -2,11 +2,11 @@ package com.example.teaapplication;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Url;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface RetrofitAPI {
 
-    @GET
-    Call<ResponseBody> getMessage(@Url String url);
+    @POST("/ask")
+    Call<ResponseBody> getMessage(@Body MsgModal query);
 }

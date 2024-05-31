@@ -97,32 +97,6 @@ public class CameraFragment extends Fragment {
         return view;
     }
 
-    // Example method to get characteristics based on identified tea type
-    private String getCharacteristicsForTeaType(String teaType) {
-        switch (teaType) {
-            case "H 1/58":
-                return "Tea leaves are dark green";
-            case "TRI2025":
-                return "Leaf characteristics: The leaves of TRI 2025 are large, oblong, and dark green. They are also thick and fleshy, which contributes to their high yield.Quality: TRI 2025 can be used to produce a wide range of tea types, including black, green, and white tea. The quality of the tea is generally good, with a strong flavor and aroma. Adaptability: TRI 2025 is relatively adaptable to different growing conditions, but it performs best in well-drained, acidic soils with moderate rainfall. Disease resistance: TRI 2025 is resistant to several common tea pests and diseases, such as Blister blight and Red rust";
-
-            case "TRI2027":
-                return "characteristics:\n" +
-                        "\n" +
-                        "Yield: Moderate yield compared to high-yielding clones like TRI 2025.\n" +
-                        "Leaf size and quality: Leaves are smaller and may not be ideal for all tea types.\n" +
-                        "Growth: Performs well under irrigated and rain-fed conditions.\n" +
-                        "Suitability: Often used in blends with other clones to improve pest and disease resistance.";
-           case "TRI4042":
-                return "Leaf characteristics: The leaves of TRI 4042 are small to medium in size, neat, and dark green in color. They are also soft and plucky, which makes them ideal for producing black tea. Quality: TRI 4042 produces good quality black tea with a bright color, strong flavor, and malty aroma. It is also suitable for green tea production. Adaptability: TRI 4042 is well-adapted to the low-country climate, which is characterized by high temperatures, high humidity, and well-distributed rainfall. It also performs well in soils with moderate to good drainage. Disease resistance: TRI 4042 is resistant to several common tea pests and diseases in the low country, such as Blister blight, Red rust, and Shot hole borer.";
-            case "TRI4049":
-                return "characteristics: Leaf quality: While generally good, the specific quality may vary depending on factors like growing conditions and processing methods. Suitability: Often used in blends with other clones to optimize yield, drought tolerance, and disease resistance.";
-            case "low":
-                return "Sorry, Our app can predict the H 1/58, TRI2025, TRI2027, TRI4042, TRI4049.";
-
-        }
-        return teaType;
-    }
-
 
     public void classifyImage(Bitmap image) {
         try {
@@ -209,7 +183,6 @@ public class CameraFragment extends Fragment {
                 // Pass data to the ResultActivity
                 resultIntent.putExtra("image", image);
                 resultIntent.putExtra("result", result.getText().toString());
-                resultIntent.putExtra("characteristics", getCharacteristicsForTeaType(y));
 
                 // Start the ResultActivity
                 startActivity(resultIntent);
@@ -233,7 +206,6 @@ public class CameraFragment extends Fragment {
                 // Pass data to the ResultActivity
                 resultIntent.putExtra("image", image);
                 resultIntent.putExtra("result", result.getText().toString());
-                resultIntent.putExtra("characteristics", getCharacteristicsForTeaType(y));
 
                 // Start the ResultActivity
                 startActivity(resultIntent);

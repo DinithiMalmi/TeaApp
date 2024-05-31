@@ -11,11 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.json.JSONObject;
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -71,8 +68,7 @@ public class ChatBotFragment extends Fragment {
         chatsModalArrayList.add(new ChatsModal(message, USER_KEY));
         chatRVAdapter.notifyDataSetChanged();
 
-        String url = "http://192.168.43.205:5000/chatbot/ask?query=" + message;
-        String BASE_URL = "http://192.168.43.205:5000";
+        String BASE_URL = "https://a51a-35-245-34-138.ngrok-free.app";
 
         // Create OkHttpClient with custom timeout values
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -88,16 +84,19 @@ public class ChatBotFragment extends Fragment {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ResponseBody> call = retrofitAPI.getMessage(url);
-        call.enqueue(new Callback<ResponseBody>() {
-            // Update onResponse method in ChatBotFragment.java
 
+        MsgModal msgModal = new MsgModal();
+        msgModal.setPromt(message);
+
+        Call<ResponseBody> call = retrofitAPI.getMessage(msgModal);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         String jsonResponse = response.body().string(); // Get the raw JSON string from the response body
                         JSONObject jsonObject = new JSONObject(jsonResponse);
-                        String botMessage = jsonObject.optString("response", "");
+                        String botMessage = jsonObject.optString("answer", "");
 
                         Log.d("ChatBotFragment", "Received message: " + botMessage); // Log the received message
                         chatsModalArrayList.add(new ChatsModal(botMessage, BOT_KEY)); // Add bot's message to list
@@ -116,7 +115,7 @@ public class ChatBotFragment extends Fragment {
                 }
             }
 
-
+            @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 chatsModalArrayList.add(new ChatsModal("Error: " + t.getMessage(), BOT_KEY));
                 chatRVAdapter.notifyDataSetChanged();

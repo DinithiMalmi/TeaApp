@@ -2,13 +2,13 @@ package com.example.teaapplication;
 
 public class MsgModal {
 
-    private String cnt;
+    private String prompt;
 
     public String getCnt() {
-        return cnt;
+        return prompt;
     }
 
-    public void setCnt(String cnt) {
-        this.cnt = cnt;
+    public void setPromt(String prompt) {
+        this.prompt = prompt;
     }
 }

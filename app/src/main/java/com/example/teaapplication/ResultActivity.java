@@ -26,13 +26,12 @@ public class ResultActivity extends AppCompatActivity {
         // Initialize views
         ImageView resultImageView = findViewById(R.id.resultImageView);
         TextView resultTextView = findViewById(R.id.resultTextView);
-        TextView characteristicsTextView = findViewById(R.id.characteristicsTextView);
-        ScrollView scrollView = findViewById(R.id.resultScrollView);
+
 
         // Set data to views
         resultImageView.setImageBitmap(image);
         resultTextView.setText(resultText);
-        characteristicsTextView.setText(characteristicsText);
+
 
         // Back button click listener
         ImageButton backButton = findViewById(R.id.backButton);
